@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmln="http//www.thymeleaf.org"  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        td,th{
+            height:50px;
+            border:1px solid #000000;
+        }
+        body{
+            width:100%;
+            height:100%;
+           background: url("/img/asd.jpg") no-repeat center ;
+            background-size: 1510px;
+        }
+    </style>
+</head>
+<body>
+<div  style="text-align:center">
+<h1>欢迎选择活动</h1>
+<div style="width: 80%; text-align: center; margin: 100px auto 0 auto; height:520px; border: 1px solid #7398a7;
+        border-radius: 5px; box-shadow:#295b6f 0 0 10px; ">
+    <h4>  &nbsp;</h4>
+    <!--搜索框-->
+    <div class="container">
+        <div class="col-lg-3 pull-right">
+            <form th:action="@{/}" method="post">
+                <input type="text" name="name" placeholder="输入活动名称查找">
+                <input type="submit" value="搜索">
+            </form>
+        </div>
+    </div>
+    <h4>&nbsp;</h4>
+    <!--表格-->
+    <table class="table  table-bordered" cellspacing="0" border="0"  style="width:90%;margin:auto">
+        <thead>
+        <tr>
+            <td>活动编号</td>
+            <td>活动名称</td>
+            <td>活动时间</td>
+            <td>活动起点</td>
+            <td>活动终点</td>
+            <td  style="width: 20%">活动内容</td>
+            <td>活动花费</td>
+            <td style="width: 30%">操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="travel:${page.list}" >
+            <td th:text="${travel.id}"></td>
+            <td th:text="${travel.name}"></td>
+            <td th:text="${travel.time}"></td>
+            <td th:text="${travel.place}"></td>
+            <td th:text="${travel.end}"></td>
+            <td th:text="${travel.include}"   style="width: 20%"></td>
+            <td th:text="${travel.spend}"></td>
+            <td>
+                <a th:href="@{/edit/{id}(id=${travel.id})}" class="btn btn-info">修改</a>
+                <a th:href="@{/delete/{id}(id=${travel.id})}" class="btn btn-info">删除</a>
+                <a href="person" class="btn btn-info">查看</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--页码-->
+    <ul class="pager">
+        <form name="pageForm" th:action="@{/}" method="get">
+            <ul class="pager">
+                <li>第<h8 th:text="${page.pageNum}">2</h8></li>
+                <li>    页/共<h8 th:text="${page.pages}">4</h8>页</li>
+                <li>共<h8 th:text="${page.total}">29</h8> 条</li>
+                <li><a th:href="@{/(pageNum=${page.pageNum}-1)}" th:unless="${page.isFirstPage}">上一页</a></li>
+                <li><a th:href="@{/(pageNum=${page.pageNum}+1)}" th:unless="${page.isLastPage}">下一页</a></li>
+            </ul>
+            <div class="col-lg-5  pull-right">
+                <a th:href="@{/update}" class="btn btn-info" style="margin-left: 60px !important;" >添加活动</a>
+            </div>
+
+        </form>
+    </ul>
+    <!--提示-->
+    <div class="alert alert-success alert-dismissable" th:unless="${#strings.isEmpty(message)}">
+        <i class="close icon"></i>
+        <button type="button" class="close" data-dismiss="alert"aria-hidden="true">&times;</button>
+        <div class="header">提示：</div>
+        <p th:text="${message}"></p>
+    </div>
+
+
+
+</div>
+</div>
+</div>
+    <script>
+        $(".message .close").on('click',function () {
+            $(this).closest(".message")
+                .transition("fade");
+        })
+    </script>
+
+
+
+</body>
+</html>
